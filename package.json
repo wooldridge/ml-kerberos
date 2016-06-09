@@ -9,6 +9,7 @@
   "author": "Mike Wooldridge",
   "license": "MIT",
   "dependencies": {
-    "kerberos": "0.0.21"
+    "kerberos": "0.0.21",
+    "request-promise": "^3.0.0"
   }
 }
