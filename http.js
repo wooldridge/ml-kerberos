@@ -6,6 +6,7 @@ function httpget(opts, callback) {
   console.log('submitting to '+(opts.hostname||opts.host)+' with authorization header: '+(opts.headers||{}).authorization);
   var req = http.get(opts, function(res) {
     if (res.statusCode == 401) {
+      console.log('response headers: ');
       console.log(res.headers);
       submitWithAuthorization(req, opts, callback);
       return;
@@ -21,12 +22,11 @@ function submitWithAuthorization(oldreq, opts, callback) {
       throw new Error(""+err);
     }
     console.log('done init '+ctx);
-    console.log(JSON.stringify(ctx, null, 2));
     kerberos.authGSSClientStep(ctx, "", function (err) {
       if (err) {
         throw new Error(""+err);
       }
-      console.log('done step '+ctx.response);
+      console.log('done step '+ctx);
       var headers = opts.headers || {};
       headers.authorization = "Negotiate "+ctx.response;
       opts.headers = headers;
@@ -47,9 +47,8 @@ function submitWithAuthorization(oldreq, opts, callback) {
 
 var options = {
     hostname : "mwooldri.marklogic.com",
-    //hostname : "mwooldri",
     port : 8060,
-    path : "/"
+    path : "/file.html"
 };
 
 var req = httpget(options, function(res) {
