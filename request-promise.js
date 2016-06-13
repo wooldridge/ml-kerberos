@@ -2,13 +2,16 @@ var rp = require('request-promise'),
     Kerberos = require('kerberos').Kerberos,
     kerberos = new Kerberos();
 
+// HTTP call to execute
 var options = {
   method: 'GET',
   uri: 'http://mwooldri.marklogic.com:8060/file.html',
   headers: {},
-  json: true
+  json: true,
+  resolveWithFullResponse: true
 };
 
+// Utility method for exposing object properties
 function getMethods(obj) {
   var result = [];
   for (var id in obj) {
@@ -23,6 +26,7 @@ function getMethods(obj) {
   return result;
 }
 
+// Perform an HTTP request
 function request(options) {
   console.log('Getting ' + options.uri + ' with authorization header: ' + options.headers.authorization);
   rp(options)
@@ -38,6 +42,7 @@ function request(options) {
           if (err) {
             throw new Error(""+err);
           }
+          console.log('Finished init '+ctx);
           console.log(getMethods(ctx).join("\n"));
           console.log(typeof ctx);
           kerberos.authGSSClientStep(ctx, "", function (err) {
