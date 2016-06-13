@@ -32,7 +32,7 @@ TODO
 
 5. Run setup.js to create a Kerberos-enabled HTTP app server on MarkLogic.
 
-6. On the Kerberos-enabled HTTP server, copy the services.keytab files to the MarkLogic data directory.
+6. On the Kerberos-enabled HTTP server, copy the services.keytab file to the MarkLogic data directory.
 
 7. Run a script to test, e.g.:
    ```
