@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "kerberos": "0.0.21",
-    "request-promise": "^3.0.0"
+    "request-promise": "^3.0.0",
+    "marklogic": "git://github.com/marklogic/node-client-api.git#develop"
   }
 }
