@@ -4,7 +4,9 @@ config.path = "/PATH/TO/ml-kerberos/"; // include trailing "/"
 
 config.name = "ml-kerberos";
 config.host = "HOST";
-config.port = 8060;
+config.port = 8050;
+config.port2 = 8060;
+
 
 config.auth = {
   user: 'USERNAME',
@@ -23,6 +25,25 @@ config.appServer = {
   "authentication": "kerberos-ticket",
   "internal-security": false,
   "external-security": "EXTERNAL"
+}
+
+config.databaseSetup = {
+  "database-name": config.name
+};
+
+config.forestSetup = {
+  "forest-name": config.name + '-1',
+  "database": config.name
+}
+
+config.restSetup = {
+  "rest-api": {
+    "name": config.name + "-rest",
+    "database": config.name,
+    "modules-database": config.name + "-modules",
+    "port": config.port,
+    "error-format": "json"
+  }
 }
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
