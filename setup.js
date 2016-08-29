@@ -35,13 +35,14 @@ function loadData() {
 
   var options = {
     method: 'PUT',
-    uri: 'http://' + config.host + ':8000/v1/documents?database=Modules&uri=/' + currFile,
+    uri: 'http://' + config.host + ':8000/v1/documents?database=Documents&uri=/' + currFile,
     body: buffer,
     auth: config.auth
   };
   rp(options)
     .then(function (parsedBody) {
       console.log('Document loaded: ' + currFile);
+      console.log(JSON.stringify(parsedBody, null, 2));
       if (dataFiles.length > 0) {
         loadData();
       } else {
