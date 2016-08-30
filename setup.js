@@ -42,7 +42,6 @@ function loadData() {
   rp(options)
     .then(function (parsedBody) {
       console.log('Document loaded: ' + currFile);
-      console.log(JSON.stringify(parsedBody, null, 2));
       if (dataFiles.length > 0) {
         loadData();
       } else {
