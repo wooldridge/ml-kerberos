@@ -43,7 +43,7 @@ config.userSetup = {
   "user-name": "user1",
   "password": "user1",
   "external-names": {
-    "external-name": "test1@MLTEST1.LOCAL"
+    "external-name": "EXTNAME"
   },
   "roles": {
     "role": "rest-reader"
@@ -53,7 +53,7 @@ config.userSetup = {
 config.restUpdate = {
   "authentication": "kerberos-ticket",
   "internal-security": false,
-  "external-security": ["mykerberos"]
+  "external-security": [config.extSecSetup['external-security-name']]
 }
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
