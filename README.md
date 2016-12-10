@@ -19,31 +19,37 @@ Windows requires additional libraries. See the [kerberos documentation](https://
 
 ## Setup
 
-1. Set up your Kerberos configuration file (e.g., /etc/krb5.conf) and create the credentials cache with the user (e.g., `kinit test1@MLTEST1.LOCAL`).
+1. Set up your Kerberos configuration file (e.g., `/etc/krb5.conf`).
 
-2. In the MarkLogic Admin UI, set up external security. Go to Security > External Security:
+2. Create the credentials cache for the user (e.g., `kinit test1@MLTEST1.LOCAL`).
+
+3. Copy the `services.keytab` file to the MarkLogic data directory.
+
+4. In the MarkLogic Admin UI, set up external security. Go to Security > External Security:
    ```
    Name:                            mykerberos
    Authentication:                  kerberos
    Authorization:                   internal
    SSL Require Client Certificate:  false
    ```
-3. In the MarkLogic Admin UI, set up an external user. Go to Security > Users:
+5. Copy config_sample to config.js and edit /PATH/TO, USERNAME, PASSWORD, and EXTNAME values. (EXTNAME will be something like `test1@MLTEST1.LOCAL`.)
 
-   ```
-   user name:     user1
-   password:      user1
-   external name: test1@MLTEST1.LOCAL
-   ```
-4. Copy config_sample to config.js and edit /PATH/TO, USERNAME, PASSWORD, and EXTERNAL values. (Use the Name from step 2 for the EXTERNAL value.)
-
-5. Run the following to create a Kerberos-enabled HTTP app server on MarkLogic:
+6. Run the following to create a Kerberos-enabled HTTP app server on MarkLogic:
    ```
    node setup.js
    ```
-6. On the Kerberos-enabled HTTP server, copy the services.keytab file to the MarkLogic data directory.
+   This will:
+
+   - create a database, `ml-kerberos`
+   - create a REST server for that database, `ml-kerberos-rest`
+   - create a user `user1` with an external name
+   - configure the REST server to require Kerberos authentication
 
 7. Run a script to test, e.g.:
    ```
    node kerberos-test.js
+   ```
+8. To remove the REST server, database, and user, run:
+   ```
+   node teardown.js
    ```
