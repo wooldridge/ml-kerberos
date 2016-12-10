@@ -19,15 +19,14 @@ Windows requires additional libraries. See the [kerberos documentation](https://
 
 ## Setup
 
-TODO
-
-1. Set up your Kerberos configuration file (e.g., /etc/krb5.conf) and create the credentials cache (e.g., kinit [user]).
+1. Set up your Kerberos configuration file (e.g., /etc/krb5.conf) and create the credentials cache with the user (e.g., `kinit test1@MLTEST1.LOCAL`).
 
 2. In the MarkLogic Admin UI, set up external security. Go to Security > External Security:
    ```
-   Name:           mykerberos
-   Authentication: kerberos
-   Authorization:  internal
+   Name:                            mykerberos
+   Authentication:                  kerberos
+   Authorization:                   internal
+   SSL Require Client Certificate:  false
    ```
 3. In the MarkLogic Admin UI, set up an external user. Go to Security > Users:
    ```
