@@ -1,7 +1,5 @@
 var config = require('./config'),
-    marklogic = require('marklogic'),
-    Kerberos = require('kerberos').Kerberos,
-    kerberos = new Kerberos();
+    marklogic = require('marklogic');
 
 var db = marklogic.createDatabaseClient({
   host: config.host,
