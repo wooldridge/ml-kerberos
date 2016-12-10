@@ -2,11 +2,11 @@ var config = require('./config'),
     rp = require('request-promise'),
     fs = require('fs');
 
-function createAppServer() {
+function createDatabase() {
   var options = {
     method: 'POST',
-    uri: 'http://' + config.host + ':8002/manage/v2/servers',
-    body: config.appServer,
+    uri: 'http://' + config.host + ':8002/manage/v2/databases',
+    body: config.databaseSetup,
     json: true,
     headers: {
       'Content-Type': 'application/json'
@@ -15,7 +15,73 @@ function createAppServer() {
   };
   rp(options)
     .then(function (parsedBody) {
-      console.log('HTTP app server created at port: ' + config.port);
+      console.log('Database created: ' + config.databaseSetup["database-name"]);
+      getHost();
+    })
+    .catch(function (err) {
+      console.log(JSON.stringify(err, null, 2));
+    });
+}
+
+var hostName = '';
+
+function getHost() {
+  var options = {
+    method: 'GET',
+    uri: 'http://' + config.host + ':8002/manage/v2/hosts',
+    json: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    auth: config.auth
+  };
+  rp(options)
+    .then(function (parsedBody) {
+      hostName = parsedBody['host-default-list']['list-items']['list-item'][0].nameref;
+      console.log('Host name: ' + hostName);
+      createForest(hostName);
+    })
+    .catch(function (err) {
+      console.log(JSON.stringify(err, null, 2));
+    });
+}
+
+function createForest(hostName) {
+  config.forestSetup["host"] = hostName;
+  var options = {
+    method: 'POST',
+    uri: 'http://' + config.host + ':8002/manage/v2/forests',
+    body: config.forestSetup,
+    json: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    auth: config.auth
+  };
+  rp(options)
+    .then(function (parsedBody) {
+      console.log('Forest created and attached: ' + config.forestSetup["forest-name"]);
+      createREST();
+    })
+    .catch(function (err) {
+      console.log(JSON.stringify(err, null, 2));
+    });
+}
+
+function createREST() {
+  var options = {
+    method: 'POST',
+    uri: 'http://' + config.host + ':8002/v1/rest-apis',
+    body: config.restSetup,
+    json: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    auth: config.auth
+  };
+  rp(options)
+    .then(function (parsedBody) {
+      console.log('REST instance created at port: ' + config.restSetup["rest-api"]["port"]);
       loadData();
     })
     .catch(function (err) {
@@ -35,7 +101,7 @@ function loadData() {
 
   var options = {
     method: 'PUT',
-    uri: 'http://' + config.host + ':8000/v1/documents?database=Documents&uri=/' + currFile,
+    uri: 'http://' + config.host + ':' + config.restSetup["rest-api"]["port"] + '/v1/documents?database=' + config.databaseSetup["database-name"] + '&uri=/' + currFile + '&collection=docs',
     body: buffer,
     auth: config.auth
   };
