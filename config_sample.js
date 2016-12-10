@@ -5,7 +5,6 @@ config.path = "/PATH/TO/ml-kerberos/"; // include trailing "/"
 config.name = "ml-kerberos";
 config.host = "HOST";
 config.port = 8050;
-config.port2 = 8060;
 
 
 config.auth = {
@@ -13,19 +12,6 @@ config.auth = {
   pass: 'PASSWORD',
   sendImmediately: false
 };
-
-config.appServer = {
-  "server-name": config.name + "-http",
-  "server-type": "http",
-  "group-name": "Default",
-  "root": "/",
-  "port": config.database.port,
-  "content-database": "Documents",
-  "modules-database": "Modules",
-  "authentication": "kerberos-ticket",
-  "internal-security": false,
-  "external-security": "EXTERNAL"
-}
 
 config.databaseSetup = {
   "database-name": config.name
@@ -44,6 +30,30 @@ config.restSetup = {
     "port": config.port,
     "error-format": "json"
   }
+}
+
+config.extSecSetup = {
+  "external-security-name": "mykerberos",
+  "authentication": "kerberos",
+  "authorization": "internal",
+  "ssl-require-client-certificate": false
+}
+
+config.userSetup = {
+  "user-name": "user1",
+  "password": "user1",
+  "external-names": {
+    "external-name": "test1@MLTEST1.LOCAL"
+  },
+  "roles": {
+    "role": "rest-reader"
+  }
+}
+
+config.restUpdate = {
+  "authentication": "kerberos-ticket",
+  "internal-security": false,
+  "external-security": ["mykerberos"]
 }
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
