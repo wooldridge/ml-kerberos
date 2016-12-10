@@ -21,7 +21,7 @@ Windows requires additional libraries. See the [kerberos documentation](https://
 
 1. Set up your Kerberos configuration file (e.g., `/etc/krb5.conf`).
 
-2. Create the credentials cache for the user (e.g., `kinit test1@MLTEST1.LOCAL`).
+2. Create the credentials cache for the external name using kinit (e.g., `kinit test1@MLTEST1.LOCAL`).
 
 3. Copy the `services.keytab` file to the MarkLogic data directory.
 
@@ -34,13 +34,13 @@ Windows requires additional libraries. See the [kerberos documentation](https://
    ```
 5. Copy config_sample to config.js and edit /PATH/TO, USERNAME, PASSWORD, and EXTNAME values. (EXTNAME will be something like `test1@MLTEST1.LOCAL`.)
 
-6. Run the following to create a Kerberos-enabled HTTP app server on MarkLogic:
+6. Run the following:
    ```
    node setup.js
    ```
    This will:
 
-   - create a database, `ml-kerberos`
+   - create a MarkLogic database, `ml-kerberos`
    - create a REST server for that database, `ml-kerberos-rest`
    - create a user `user1` with an external name
    - configure the REST server to require Kerberos authentication
