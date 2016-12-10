@@ -5,9 +5,8 @@ var config = require('./config'),
 
 var db = marklogic.createDatabaseClient({
   host: config.host,
-  port: config.port,
-  authType: 'kerberos',
-  principal: 'test1@MLTEST1.LOCAL'
+  port: config.port2,
+  authType: 'kerberos'
 });
 
 db.setLogger('debug');
