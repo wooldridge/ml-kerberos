@@ -19,9 +19,9 @@ Windows requires additional libraries. See the [kerberos documentation](https://
 
 ## Setup
 
-1. Set up your Kerberos configuration file (e.g., `/etc/krb5.conf`).
+1. On the client, install the Kerberos configuration file (i.e., `/etc/krb5.conf`).
 
-2. Create the credentials cache for the external name using kinit (e.g., `kinit test1@MLTEST1.LOCAL`).
+2. On the client, create the credentials cache for the external name using kinit (e.g., `kinit test1@MLTEST1.LOCAL`).
 
 3. Copy the `services.keytab` file to the MarkLogic data directory.
 
@@ -32,24 +32,24 @@ Windows requires additional libraries. See the [kerberos documentation](https://
    Authorization:                   internal
    SSL Require Client Certificate:  false
    ```
-5. Copy config_sample to config.js and edit /PATH/TO, USERNAME, PASSWORD, and EXTNAME values. (EXTNAME will be something like `test1@MLTEST1.LOCAL`.)
+5. In the ml-kerberos root directory, copy config_sample.js to config.js and edit the USERNAME, PASSWORD, and EXTNAME values in config.js. (EXTNAME will be something like `test1@MLTEST1.LOCAL`.)
 
-6. Run the following:
+6. In the ml-kerberos root directory, run the following:
    ```
    node setup.js
    ```
-   This will:
+   This will configure MarkLogic for using Kerberos, including:
 
-   - create a MarkLogic database, `ml-kerberos`
-   - create a REST server for that database, `ml-kerberos-rest`
-   - create a user `user1` with an external name
-   - configure the REST server to require Kerberos authentication
+   - creating a MarkLogic database, `ml-kerberos`
+   - creating a REST server for that database, `ml-kerberos-rest`
+   - creating a user `user1` with an external name
+   - configuring the REST server to require Kerberos authentication
 
-7. Run a script to test, e.g.:
+7. In the ml-kerberos root directory, run the following script to test:
    ```
    node kerberos-test.js
    ```
-8. To remove the REST server, database, and user, run:
+8. To remove the REST server, database, and user, run from the ml-kerberos root directory:
 
    ```
    node teardown.js
