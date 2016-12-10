@@ -11,11 +11,11 @@ function handleError(err) {
   }
 }
 
-function deleteAppServer() {
+function deleteREST() {
   var options = {
     method: 'DELETE',
-    uri: 'http://' + config.host + ':8002/manage/v2/servers/' + config.appServer['server-name'] +
-         '?group-id=Default',
+    uri: 'http://' + config.host + ':8002/v1/rest-apis/' + config.name + "-rest" +
+         '?include=content&include=modules',
     json: true,
     headers: {
       'Content-Type': 'application/json'
@@ -24,7 +24,29 @@ function deleteAppServer() {
   };
   rp(options)
     .then(function (parsedBody) {
-      console.log('HTTP app server deleted: ' + config.appServer['server-name']);
+      console.log('REST instance deleted: ' + config.database.name + "-rest");
+      //deleteUser();
+    })
+    .catch(function (err) {
+      handleError(err)
+    });
+}
+
+
+function deleteUser() {
+  var options = {
+    method: 'DELETE',
+    uri: 'http://' + config.host + ':8002/manage/v2/users/' + config.userSetup["user-name"] + '?format=json',
+    json: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    auth: config.auth
+  };
+  rp(options)
+    .then(function (parsedBody) {
+      console.log('User deleted: ' + config.userSetup["user-name"]);
+      deleteREST()
     })
     .catch(function (err) {
       handleError(err)
@@ -32,7 +54,7 @@ function deleteAppServer() {
 }
 
 function start() {
-  deleteAppServer();
+  deleteUser();
 }
 
 start();
