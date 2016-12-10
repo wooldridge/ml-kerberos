@@ -1,6 +1,9 @@
+var pjson = require('./package.json');
+var path = require('path');
+
 var config = {};
 
-config.path = "/PATH/TO/ml-kerberos/"; // include trailing "/"
+config.path = path.dirname(require.main.filename) + "/";
 
 config.name = "ml-kerberos";
 config.host = "HOST";
