@@ -50,6 +50,7 @@ Windows requires additional libraries. See the [kerberos documentation](https://
    node kerberos-test.js
    ```
 8. To remove the REST server, database, and user, run:
+
    ```
    node teardown.js
    ```
