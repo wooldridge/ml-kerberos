@@ -112,6 +112,7 @@ function loadData() {
         loadData();
       } else {
         console.log('Data loaded');
+        createUser();
       }
     })
     .catch(function (err) {
@@ -119,8 +120,70 @@ function loadData() {
     });
 }
 
+// TODO https://bugtrack.marklogic.com/43696
+function createExtSec() {
+  var options = {
+    method: 'POST',
+    uri: 'http://' + config.host + ':8002/manage/v2/external-security',
+    body: config.extSecSetup,
+    json: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    auth: config.auth
+  };
+  rp(options)
+    .then(function (parsedBody) {
+      console.log('External security created: ' + config.extSecSetup["external-security-name"]);
+    })
+    .catch(function (err) {
+      console.log(JSON.stringify(err, null, 2));
+    });
+}
+
+function createUser() {
+  var options = {
+    method: 'POST',
+    uri: 'http://' + config.host + ':8002/manage/v2/users',
+    body: config.userSetup,
+    json: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    auth: config.auth
+  };
+  rp(options)
+    .then(function (parsedBody) {
+      console.log('User created: ' + config.userSetup["user-name"]);
+      updateREST();
+    })
+    .catch(function (err) {
+      console.log(JSON.stringify(err, null, 2));
+    });
+}
+
+function updateREST() {
+  var options = {
+    method: 'PUT',
+    uri: 'http://' + config.host + ':8002/manage/v2/servers/' + config.restSetup['rest-api']['name'] + '/properties?group-id=Default&format=json',
+    body: config.restUpdate,
+    json: true,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    auth: config.auth
+  };
+  rp(options)
+    .then(function (parsedBody) {
+      console.log('REST server updated: ' + config.restSetup['rest-api']['name']);
+    })
+    .catch(function (err) {
+      console.log(JSON.stringify(err, null, 2));
+    });
+}
+
 function start() {
-  createAppServer();
+  createDatabase();
 }
 
 start();
