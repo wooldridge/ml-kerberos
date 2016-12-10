@@ -29,6 +29,7 @@ Windows requires additional libraries. See the [kerberos documentation](https://
    SSL Require Client Certificate:  false
    ```
 3. In the MarkLogic Admin UI, set up an external user. Go to Security > Users:
+
    ```
    user name:     user1
    password:      user1
