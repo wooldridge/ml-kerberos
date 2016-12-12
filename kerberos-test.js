@@ -1,13 +1,10 @@
 var config = require('./config'),
-    marklogic = require('marklogic'),
-    Kerberos = require('kerberos').Kerberos,
-    kerberos = new Kerberos();
+    marklogic = require('marklogic');
 
 var db = marklogic.createDatabaseClient({
   host: config.host,
   port: config.port,
-  authType: 'kerberos',
-  principal: 'test1@MLTEST1.LOCAL'
+  authType: 'kerberos'
 });
 
 db.setLogger('debug');
