@@ -32,7 +32,8 @@ Windows requires additional libraries. See the [kerberos documentation](https://
    Authorization:                   internal
    SSL Require Client Certificate:  false
    ```
-5. In the ml-kerberos root directory, copy config_sample.js to config.js and edit the USERNAME, PASSWORD, and EXTNAME values in config.js. (EXTNAME will be something like `test1@MLTEST1.LOCAL`.)
+5. In the ml-kerberos root directory, copy config_sample.js to config.js and edit the HOST, USERNAME, PASSWORD, and 
+   EXTNAME values in config.js. (EXTNAME will be something like `test1@MLTEST1.LOCAL`.)
 
 6. In the ml-kerberos root directory, run the following:
    ```
